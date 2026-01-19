@@ -3,49 +3,146 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mirai Climbing</title>
+  <title>Mirai Climbing｜クライマーのための記録・募集アプリ</title>
+  <meta name="description" content="Mirai Climbingは、クライミングのログ記録・パートナー募集・目標管理をひとつにまとめたクライマー向けアプリです（β版・テスター募集中）。">
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 0; }
-    main { max-width: 900px; margin: 0 auto; padding: 48px 20px; line-height: 1.7; }
-    h1 { margin: 0 0 12px; font-size: 40px; }
-    .lead { font-size: 18px; opacity: 0.9; margin: 0 0 28px; }
-    .card { border: 1px solid #e5e7eb; border-radius: 16px; padding: 18px 16px; margin: 16px 0; }
-    ul { margin: 10px 0 0 20px; }
-    a.button { display: inline-block; padding: 12px 16px; border-radius: 12px; border: 1px solid #111827;
-      text-decoration: none; color: #111827; margin-right: 10px; }
-    footer { margin-top: 40px; font-size: 14px; opacity: 0.75; }
+    :root {
+      --text: #111827;
+      --subtext: #4b5563;
+      --border: #e5e7eb;
+      --bg: #ffffff;
+      --accent: #2563eb;
+    }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+    }
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 56px 20px;
+    }
+    h1 {
+      font-size: 40px;
+      margin: 0 0 12px;
+      letter-spacing: 0.02em;
+    }
+    .lead {
+      font-size: 18px;
+      color: var(--subtext);
+      margin-bottom: 32px;
+    }
+    section {
+      margin: 40px 0;
+    }
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin: 16px 0;
+    }
+    ul {
+      margin: 12px 0 0 20px;
+    }
+    .buttons {
+      margin-top: 24px;
+    }
+    a.button {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--accent);
+      color: #fff;
+      background: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      margin-right: 12px;
+    }
+    a.button.secondary {
+      background: #fff;
+      color: var(--accent);
+    }
+    footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--subtext);
+    }
+    footer a {
+      color: inherit;
+      text-decoration: underline;
+    }
   </style>
 </head>
+
 <body>
   <main>
-    <h1>Mirai Climbing</h1>
-    <p class="lead">クライミングをもっと自由に、もっと安全に。ログ・募集・目標をひとつにまとめたクライマー向けアプリ（β）。</p>
+    <!-- Hero -->
+    <section>
+      <h1>Mirai Climbing</h1>
+      <p class="lead">
+        クライミングを、もっと自由に。<br>
+        ログ記録・パートナー募集・目標管理をひとつにまとめた、クライマー向けアプリです。
+      </p>
 
-    <div class="card">
-      <b>主な機能</b>
+      <div class="buttons">
+        <a class="button" href="https://forms.gle/LERqgodBXV8uU7XE6" target="_blank" rel="noopener">
+          テスター参加・お問い合わせ
+        </a>
+        <a class="button secondary" href="https://github.com/Mirai-Climbing" target="_blank" rel="noopener">
+          GitHub
+        </a>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="card">
+      <strong>主な機能</strong>
       <ul>
-        <li>ジム / 外岩ログ</li>
-        <li>パートナー募集</li>
-        <li>目標管理</li>
+        <li>ジム・外岩のクライミングログ記録</li>
+        <li>パートナー募集・同行者探し</li>
+        <li>目標設定・進捗の可視化</li>
         <li>iOS / Android 対応（開発中）</li>
       </ul>
-    </div>
+    </section>
 
-    <div class="card">
-      <b>現在</b>
+    <!-- Status -->
+    <section class="card">
+      <strong>現在の状況</strong>
       <ul>
-        <li>テスター募集中</li>
-        <li>フィードバック歓迎</li>
+        <li>個人開発によるβ版</li>
+        <li>テスター・フィードバック募集中</li>
+        <li>機能・UIは今後も継続的に改善予定</li>
       </ul>
-    </div>
+    </section>
 
-    <p>
-      <a class="button" href="#" target="_blank" rel="noopener">お問い合わせ（フォーム）</a>
-      <a class="button" href="#" target="_blank" rel="noopener">GitHub</a>
-    </p>
+    <!-- Philosophy -->
+    <section class="card">
+      <strong>このアプリについて</strong>
+      <p>
+        Mirai Climbing は、大規模サービスでは拾いきれない
+        <em>「クライマー一人ひとりの使い心地」</em>を大切にしながら、
+        少しずつ育てていくことを目指しています。
+      </p>
+      <p>
+        バグ報告・改善案・使ってみた感想など、
+        どんなフィードバックでも歓迎です。
+      </p>
+    </section>
 
+    <!-- Footer -->
     <footer>
-      © Mirai Climbing
+      <p>
+        © Mirai Climbing<br>
+        お問い合わせ：
+        <a href="https://forms.gle/LERqgodBXV8uU7XE6" target="_blank" rel="noopener">
+          Googleフォーム
+        </a>
+      </p>
     </footer>
   </main>
 </body>
