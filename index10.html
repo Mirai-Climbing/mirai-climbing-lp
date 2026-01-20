@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mirai Climbing｜クライマー向け記録・募集アプリ</title>
+  <meta name="description" content="ログ記録・パートナー募集・目標管理をひとつにまとめた、クライマー向けアプリ「Mirai Climbing」。iOS/Androidでβテスター募集中。" />
+  <meta name="theme-color" content="#1C75BC" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+JP:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --brand:#1C75BC;        /* Mirai Blue */
+      --bg:#F6F9FC;
+      --text:#0B1220;
+      --muted:#445266;
+      --border:#E5EEF7;
+      --shadow2: 0 6px 18px rgba(11,18,32,.06);
+      --radius: 16px;
+      --container: 1080px;
+
+      /* unified frame */
+      --frame-border: 1px solid rgba(229,238,247,.9);
+      --frame-bg: rgba(255,255,255,.92);
+      --frame-minh: 120px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: Inter, "Noto Sans JP", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(28,117,188,.18), transparent 60%),
+        radial-gradient(900px 500px at 90% 0%, rgba(28,117,188,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg), #fff 45%, #fff);
+      font-size: 16px;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; text-underline-offset: 3px; }
+    .container{ width:min(var(--container), calc(100% - 36px)); margin-inline:auto; }
+
+    /* Header */
+    header{ padding: 22px 0 6px; }
+    .topbar{ display:flex; align-items:flex-start; gap:14px; }
+    .logo{
+      width:56px; height:56px;
+      border-radius: 12px;
+      background:#0E4E87;
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      flex: 0 0 auto;
+      border:1px solid rgba(229,238,247,.9);
+      margin-top: 2px;
+    }
+    .logo img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .titlewrap{ display:flex; flex-direction:column; gap:8px; }
+    .brandname{ font-weight:900; letter-spacing:.2px; font-size: 20px; line-height:1.1; }
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:9px 13px;
+      border-radius: 14px;
+      border: 1px solid rgba(11,18,32,.75);
+      background: rgba(255,255,255,.75);
+      font-weight:800;
+      font-size: 13.5px;
+      width: fit-content;
+    }
+    .kicker .dot{
+      width:9px; height:9px; border-radius:999px;
+      background: var(--brand);
+      box-shadow: 0 0 0 4px rgba(28,117,188,.16);
+    }
+
+    /* Hero */
+    .hero{ padding: 10px 0 10px; }
+    h1{
+      margin: 12px 0 8px;
+      font-size: clamp(28px, 3.4vw, 40px);
+      line-height: 1.18;
+      letter-spacing: -.35px;
+    }
+    .lead{
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.85;
+      font-size: 15.5px;
+      max-width: 72ch;
+    }
+
+    section{ padding: 18px 0; }
+
+    /* Section title (bigger) */
+    h2{
+      margin: 26px 0 14px;
+      font-size: 22px;
+      letter-spacing: -.2px;
+      font-weight: 900;
+    }
+
+    /* Feature cards */
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .card{
+      background: var(--frame-bg);
+      border: var(--frame-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow2);
+      padding: 16px;
+      min-height: 122px;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      padding:5px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(11,18,32,.85);
+      background: rgba(255,255,255,.78);
+      font-weight:900;
+      font-size: 12.5px;
+    }
+    .card h3{
+      margin: 10px 0 7px;
+      font-size: 15px;
+      letter-spacing: -.1px;
+      font-weight: 900;
+    }
+    .card p{
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 14.2px;
+    }
+    .card ul{
+      margin: 10px 0 0;
+      padding: 0 0 0 18px;
+      color: var(--muted);
+      line-height: 1.85;
+      font-size: 14px;
+    }
+
+    /* Link style */
+    .link{ color: var(--brand); font-weight: 900; }
+
+    /* ===== 特長（スクショ風：縦並び・番号付き・同じ枠） ===== */
+    .values-title{
+      margin-top: 6px;
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: -.15px;
+    }
+    .values-list{
+      display:flex;
+      flex-direction:column;
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .value-item{
+      background: var(--frame-bg);
+      border: var(--frame-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow2);
+      padding: 16px;
+    }
+    .value-head{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      margin-bottom: 6px;
+    }
+    .num-badge{
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      border: 1px solid rgba(11,18,32,.35);
+      background: rgba(255,255,255,.8);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight: 900;
+      font-size: 13px;
+      flex: 0 0 auto;
+      margin-top: 1px;
+    }
+    .value-item h3{
+      margin:0;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: -.1px;
+      line-height: 1.35;
+    }
+    .value-item p{
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.9;
+      font-size: 14.2px;
+    }
+
+    /* 短い締め（スクショ風：枠なしで控えめに） */
+    .closing-line{
+      margin-top: 18px;
+      color: var(--text);
+      font-weight: 800;
+      letter-spacing: -.1px;
+      line-height: 1.9;
+      font-size: 14.5px;
+    }
+
+    /* Beta flow */
+    .flow{
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items:stretch;
+    }
+    .flowbox{
+      border: var(--frame-border);
+      border-radius: 14px;
+      background: var(--frame-bg);
+      box-shadow: var(--shadow2);
+      padding: 16px;
+      min-height: var(--frame-minh);
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
+    }
+    .flowbox h3{
+      margin:0 0 8px;
+      font-size: 15px;
+      font-weight: 900;
+    }
+    .flowbox .mini{
+      color: var(--muted);
+      line-height: 1.85;
+      font-size: 14px;
+    }
+
+    .arrowwrap{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding: 8px 0 4px;
+    }
+    .arrow{
+      width: 0;
+      height: 0;
+      border-left: 18px solid transparent;
+      border-right: 18px solid transparent;
+      border-top: 30px solid #0E4E87;
+      filter: drop-shadow(0 6px 10px rgba(11,18,32,.10));
+    }
+
+    .stepwide{
+      grid-column: 1 / -1;
+      border-radius: 14px;
+      background: var(--frame-bg);
+      border: var(--frame-border);
+      box-shadow: var(--shadow2);
+      padding: 16px;
+    }
+    .stepwide h3{
+      margin: 0 0 8px;
+      font-size: 15px;
+      font-weight: 900;
+    }
+    .stepwide p{
+      margin:0;
+      color: var(--muted);
+      line-height: 1.9;
+      font-size: 14.2px;
+    }
+
+    footer{
+      margin-top: 18px;
+      padding: 14px 0 20px;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+    .footerrow{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      border-top: 1px solid rgba(229,238,247,.9);
+      padding-top: 14px;
+    }
+
+    @media (max-width: 920px){
+      .grid{ grid-template-columns: 1fr; }
+      .flow{ grid-template-columns: 1fr; }
+      .topbar{ align-items:center; }
+      .logo{ width:52px; height:52px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="container">
+    <div class="topbar">
+      <!-- アイコン画像：assets/mirai-logo.png -->
+      <div class="logo" aria-hidden="true">
+        <img src="assets/mirai-logo.png" alt=""
+             onerror="this.remove(); this.parentElement.style.background='#1C75BC';" />
+      </div>
+
+      <div class="titlewrap">
+        <div class="brandname">Mirai Climbing</div>
+        <div class="kicker"><span class="dot" aria-hidden="true"></span> 個人開発・β版｜iOS / Androidテスター募集中</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>クライマーのための、次の一歩がここに。</h1>
+      <p class="lead">
+        ログ記録・パートナー募集・目標管理をひとつにまとめた、クライマー向けアプリです。
+      </p>
+    </section>
+
+    <section id="features">
+      <h2>主な機能</h2>
+
+      <div class="grid">
+        <div class="card">
+          <div class="chip">ログ</div>
+          <h3>ジムも外岩も、記録をひとつに</h3>
+          <p>登った課題、気づき、動画などを残して、あとから振り返れる形に。</p>
+          <ul>
+            <li>ジム・外岩のログをまとめて管理</li>
+            <li>振り返りやすい形に整える</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="chip">検索</div>
+          <h3>必要な情報に、すぐ辿り着く</h3>
+          <p>ログ・募集・目標を「探す」時間を減らし、登ることに集中できる導線を作ります。</p>
+          <ul>
+            <li>キーワードや条件でサッと絞り込み</li>
+            <li>見返したい記録をすぐ見つける</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="chip">バッジ</div>
+          <h3>続けた分だけ、可視化される</h3>
+          <p>目標達成や継続の記録をバッジで残して、モチベーションにつなげます。</p>
+          <ul>
+            <li>継続・達成の“見える化”</li>
+            <li>プロフィールで成長を振り返る</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="chip">募集</div>
+          <h3>「一緒に登りたい」を、すぐ形に</h3>
+          <p>日時や場所、スタイルに合わせて募集を出して、参加者とつながる。</p>
+          <ul>
+            <li>同行者探し・パートナー募集</li>
+            <li>改善の優先度はフィードバック次第</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="chip">目標</div>
+          <h3>目標を立てて、進捗を見える化</h3>
+          <p>目標設定と進捗の可視化で、「続ける」を後押しします。</p>
+          <ul>
+            <li>目標設定・進捗の可視化</li>
+            <li>見返したくなるUIを目指す</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="chip">知識</div>
+          <h3>安全・用語・小ネタを、手元に</h3>
+          <p>その場で確認したい基礎知識や注意点を、アプリ内からサッと参照できる形を目指します。</p>
+          <ul>
+            <li>用語・基礎のまとめ</li>
+            <li>安全に関する注意点の共有</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="values">
+      <div class="values-title">Mirai Climbingの特長</div>
+
+      <div class="values-list">
+        <div class="value-item">
+          <div class="value-head">
+            <div class="num-badge">1</div>
+            <h3>特定のスタイルに偏らない中立性</h3>
+          </div>
+          <p>
+            Mirai Climbing は、ボルダー／リード、ジム／外岩、エンジョイ／ガチといった区分に偏らない設計を目指しています。<br>
+            特定のスタイルやレベルを前提にせず、「今の自分に合う使い方」を選べることを大切にしています。<br>
+            クライマーそれぞれの距離感で使える、フラットで中立的な場所であることを意識しています。
+          </p>
+        </div>
+
+        <div class="value-item">
+          <div class="value-head">
+            <div class="num-badge">2</div>
+            <h3>開発者との距離が近い</h3>
+          </div>
+          <p>
+            Mirai Climbing は個人開発のアプリです。だからこそ、使っている人の声をとても大切にしています。<br>
+            <a class="link" href="https://line.me/ti/g2/lZhd9RRLReHtogvhpQoLIn_KBG3SHj1HCzK_Cg?utm_source=invitation&utm_medium=QR_code&utm_campaign=default" target="_blank" rel="noreferrer">LINEオープンチャット</a>
+            やフィードバックを通じて、実際の利用シーンや困りごとを知り、改善の優先度を決めています。<br>
+            「こんな機能がほしい」「ここが使いづらい」そんな一言が、次のアップデートにつながる距離感です。
+          </p>
+        </div>
+
+        <div class="value-item">
+          <div class="value-head">
+            <div class="num-badge">3</div>
+            <h3>一緒に育てていく前提</h3>
+          </div>
+          <p>
+            Mirai Climbing は、まだβ版です。機能もUIも、これから変わっていきます。<br>
+            完成されたプロダクトではなく、クライマーと一緒に育っていくアプリでありたい。<br>
+            その過程も含めて、楽しんでもらえたら嬉しいです。
+          </p>
+        </div>
+      </div>
+
+      <div class="closing-line">
+        Mirai Climbing は、特定の誰かのためのアプリではありません。<br>
+        今、登っているあなたのためのアプリです。
+      </div>
+    </section>
+
+    <section id="beta">
+      <h2>βテストに参加</h2>
+
+      <div class="flow" aria-label="Beta flow">
+        <div class="flowbox">
+          <h3>①インストール（iPhoneユーザーの方）</h3>
+          <div class="mini">
+            <a class="link" href="https://testflight.apple.com/join/nH1J5CFS" target="_blank" rel="noreferrer">TestFlight</a> で参加
+          </div>
+        </div>
+
+        <div class="flowbox" id="android">
+          <h3>①インストール（Androidユーザーの方）</h3>
+          <div class="mini">
+            ① <a class="link" href="https://groups.google.com/g/miraiclimbing" target="_blank" rel="noreferrer">Googleグループ</a> に参加<br>
+            ② 数分〜最大1時間ほど待ってから、<a class="link" href="https://play.google.com/apps/testing/com.yuzuki.miraiclimbing" target="_blank" rel="noreferrer">Google Play</a> でインストール
+          </div>
+        </div>
+
+        <div class="arrowwrap" aria-hidden="true"><div class="arrow"></div></div>
+        <div class="arrowwrap" aria-hidden="true"><div class="arrow"></div></div>
+
+        <div class="stepwide">
+          <h3>②触ってみる</h3>
+          <p>「ログを1つ」「募集を眺める」「目標を作る」など、どれか1つだけでもOKです。</p>
+        </div>
+
+        <div class="arrowwrap" aria-hidden="true" style="grid-column:1/-1;"><div class="arrow"></div></div>
+
+        <div class="stepwide">
+          <h3>③共有する</h3>
+          <p>
+            <a class="link" href="https://line.me/ti/g2/lZhd9RRLReHtogvhpQoLIn_KBG3SHj1HCzK_Cg?utm_source=invitation&utm_medium=QR_code&utm_campaign=default" target="_blank" rel="noreferrer">LINEオープンチャット</a>
+            に参加して、バグ・ご要望などを気軽にシェアしてください（スクショOK）。<br>
+            ご不明点は
+            <a class="link" href="https://forms.gle/zVURQaZ3XvQ17NUEA" target="_blank" rel="noreferrer">問い合わせフォーム</a>
+            からお問い合わせいただけます。
+          </p>
+        </div>
+      </div>
+
+      <p class="lead" style="margin-top:16px;">
+        参加して、育ててください。<br>
+        ほんの一言の感想でもOK。あなたの声が、Mirai Climbingの改善に直結します。
+      </p>
+    </section>
+
+    <footer>
+      <div class="footerrow">
+        <div>© <span id="y"></span> Mirai Climbing</div>
+        <div>
+          <a class="link" id="privacyLink" href="privacy-policy.html">プライバシーポリシー</a>
+        </div>
+      </div>
+
+      <div id="privacyFallback" style="display:none; margin-top:12px; line-height:1.85;">
+        <strong style="color:var(--text);">プライバシーポリシー</strong><br>
+        <span style="color:var(--muted);">
+          <code>privacy-policy.html</code> が見つからないため、このページ内に表示しています。<br>
+          別ページにしたい場合は、リポジトリの同じ階層に <code>privacy-policy.html</code> を追加してください。
+        </span>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+
+    (async () => {
+      const link = document.getElementById("privacyLink");
+      const fallback = document.getElementById("privacyFallback");
+      try {
+        const res = await fetch("privacy-policy.html", { method: "HEAD" });
+        if (!res.ok) throw new Error("not found");
+      } catch {
+        link.removeAttribute("href");
+        link.style.cursor = "default";
+        link.style.textDecoration = "none";
+        fallback.style.display = "block";
+      }
+    })();
+  </script>
+</body>
+</html>
