@@ -1,0 +1,947 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mirai Climbing｜クライマーのための記録・募集アプリ</title>
+  <meta name="description" content="ログ記録・パートナー募集・目標管理をひとつにまとめた、クライマー向けアプリ「Mirai Climbing」。iOS/Androidでβテスター募集中。" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Mirai Climbing｜クライマーのための記録・募集アプリ" />
+  <meta property="og:description" content="ログ記録・パートナー募集・目標管理をひとつにまとめた、クライマー向けアプリ。iOS/Androidでβテスター募集中。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mirai-climbing.com/" />
+  <!-- 画像がある場合は差し替え（例: assets/og.png） -->
+  <meta property="og:image" content="assets/og.png" />
+
+  <meta name="theme-color" content="#1C75BC" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --brand:#1C75BC;        /* Mirai Blue */
+      --bg:#F6F9FC;
+      --text:#0B1220;
+      --muted:#445266;
+      --border:#E5EEF7;
+      --card:#FFFFFF;
+      --shadow: 0 10px 30px rgba(11,18,32,.08);
+      --shadow2: 0 6px 18px rgba(11,18,32,.06);
+      --radius: 16px;
+      --radius2: 22px;
+      --container: 1120px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: Inter, "Noto Sans JP", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(28,117,188,.18), transparent 60%),
+        radial-gradient(900px 500px at 90% 0%, rgba(28,117,188,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg), #fff 45%, #fff);
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; text-underline-offset: 3px; }
+
+    code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.95em;
+    }
+
+    .container{
+      width:min(var(--container), calc(100% - 40px));
+      margin-inline:auto;
+    }
+
+    /* Top Nav */
+    .nav{
+      position: sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(246,249,252,.72);
+      border-bottom: 1px solid rgba(229,238,247,.8);
+    }
+    .nav-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px 0;
+      gap:14px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .logo{
+      width:38px; height:38px;
+      border-radius:12px;
+      background: linear-gradient(135deg, var(--brand), #0E4E87);
+      box-shadow: var(--shadow2);
+      display:grid;
+      place-items:center;
+      color:#fff;
+      font-weight:800;
+      font-size:14px;
+    }
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      color:var(--muted);
+      font-weight:600;
+      font-size:14px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .nav-links a{
+      padding:8px 10px;
+      border-radius: 12px;
+    }
+    .nav-links a:hover{
+      background: rgba(28,117,188,.08);
+      text-decoration:none;
+    }
+
+    /* Buttons */
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:12px 16px;
+      border-radius: 14px;
+      border:1px solid transparent;
+      font-weight:700;
+      letter-spacing:.2px;
+      cursor:pointer;
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:active{ transform: translateY(1px); }
+    .btn-primary{
+      background: var(--brand);
+      color:#fff;
+      box-shadow: 0 10px 22px rgba(28,117,188,.25);
+    }
+    .btn-primary:hover{
+      background: #1868A7;
+      text-decoration:none;
+      box-shadow: 0 12px 26px rgba(28,117,188,.28);
+    }
+    .btn-ghost{
+      background: rgba(255,255,255,.85);
+      border-color: var(--border);
+      color: var(--text);
+    }
+    .btn-ghost:hover{
+      background: #fff;
+      border-color: rgba(28,117,188,.22);
+      text-decoration:none;
+      box-shadow: var(--shadow2);
+    }
+    .btn-link{
+      padding:10px 12px;
+      border-radius: 12px;
+      color: var(--brand);
+      background: rgba(28,117,188,.08);
+      border: 1px solid rgba(28,117,188,.16);
+    }
+    .btn-link:hover{
+      background: rgba(28,117,188,.12);
+      text-decoration:none;
+    }
+
+    /* Hero */
+    .hero{
+      padding: 56px 0 24px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.12fr .88fr;
+      gap: 28px;
+      align-items:center;
+    }
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 12px;
+      border-radius: 999px;
+      background: rgba(28,117,188,.10);
+      border: 1px solid rgba(28,117,188,.18);
+      color: #0E4E87;
+      font-weight:700;
+      font-size:13px;
+    }
+    .kicker .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: var(--brand);
+      box-shadow: 0 0 0 4px rgba(28,117,188,.16);
+    }
+    h1{
+      margin: 14px 0 10px;
+      font-size: clamp(34px, 3.2vw, 48px);
+      line-height: 1.15;
+      letter-spacing: -0.6px;
+    }
+    .lead{
+      margin: 0 0 18px;
+      font-size: 16.5px;
+      line-height: 1.75;
+      color: var(--muted);
+      max-width: 58ch;
+    }
+    .hero-cta{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin: 18px 0 16px;
+    }
+    .trust{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.85);
+      border: 1px solid var(--border);
+    }
+    .pill svg{ width:16px; height:16px; color: var(--brand); }
+
+    /* Phone mock */
+    .phone{
+      border-radius: var(--radius2);
+      background: rgba(255,255,255,.90);
+      border: 1px solid rgba(229,238,247,.90);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      position: relative;
+      overflow:hidden;
+    }
+    .phone::before{
+      content:"";
+      position:absolute;
+      inset:-120px -160px auto auto;
+      width: 280px; height: 280px;
+      background: radial-gradient(circle at 30% 30%, rgba(28,117,188,.25), transparent 55%);
+      transform: rotate(18deg);
+      pointer-events:none;
+    }
+    .phone-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      padding: 4px 2px 12px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .screen{
+      border-radius: 18px;
+      border: 1px solid rgba(229,238,247,.9);
+      background: linear-gradient(180deg, #ffffff, #f9fbff);
+      overflow:hidden;
+    }
+    .screen img{
+      width:100%;
+      height:auto;
+      display:block;
+      background:#fff;
+    }
+    .screen-fallback{
+      padding: 20px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .screen-fallback strong{ color: var(--text); }
+
+    /* Sections */
+    section{
+      padding: 52px 0;
+    }
+    .section-title{
+      font-size: 28px;
+      margin: 0 0 10px;
+      letter-spacing: -.3px;
+    }
+    .section-desc{
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 86ch;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .card{
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(229,238,247,.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow2);
+      padding: 18px;
+    }
+    .card h3{
+      margin: 6px 0 8px;
+      font-size: 17px;
+      letter-spacing: -.2px;
+    }
+    .card p{
+      margin:0;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 14.5px;
+    }
+    .icon{
+      width: 40px; height: 40px;
+      border-radius: 14px;
+      background: rgba(28,117,188,.10);
+      border: 1px solid rgba(28,117,188,.18);
+      display:grid;
+      place-items:center;
+      color: var(--brand);
+    }
+    .icon svg{ width: 18px; height:18px; }
+
+    /* Feature rows */
+    .feature{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items:center;
+      margin-top: 18px;
+    }
+    .feature .card{
+      padding: 22px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight:800;
+      color:#0E4E87;
+      background: rgba(28,117,188,.10);
+      border: 1px solid rgba(28,117,188,.18);
+    }
+    .list{
+      margin: 14px 0 0;
+      padding: 0;
+      list-style:none;
+      color: var(--muted);
+      line-height:1.9;
+      font-size: 14.5px;
+    }
+    .list li{
+      display:flex;
+      gap:10px;
+      padding: 6px 0;
+    }
+    .check{
+      width: 18px; height:18px;
+      flex: 0 0 auto;
+      margin-top: 2px;
+      color: var(--brand);
+    }
+
+    /* Beta / steps */
+    .steps{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .step{
+      position:relative;
+      padding: 18px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(229,238,247,.9);
+      box-shadow: var(--shadow2);
+    }
+    .step-num{
+      width: 34px; height: 34px;
+      border-radius: 14px;
+      display:grid;
+      place-items:center;
+      font-weight:900;
+      color:#fff;
+      background: var(--brand);
+      box-shadow: 0 10px 22px rgba(28,117,188,.20);
+      margin-bottom: 10px;
+    }
+    .step h3{ margin: 0 0 6px; font-size: 16px; }
+    .step p{ margin: 0; color: var(--muted); line-height: 1.8; font-size: 14.5px; }
+
+    .notice{
+      margin-top: 14px;
+      border-radius: var(--radius);
+      background: rgba(28,117,188,.06);
+      border: 1px solid rgba(28,117,188,.14);
+      padding: 14px 16px;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    /* FAQ */
+    details{
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(229,238,247,.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow2);
+      padding: 14px 16px;
+    }
+    details + details{ margin-top: 10px; }
+    summary{
+      cursor:pointer;
+      font-weight:800;
+      color: var(--text);
+      list-style:none;
+    }
+    summary::-webkit-details-marker{ display:none; }
+    summary::after{
+      content:"＋";
+      float:right;
+      color: var(--brand);
+      font-weight:900;
+    }
+    details[open] summary::after{ content:"－"; }
+    details p{
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.85;
+      font-size: 14.5px;
+    }
+    details a{ color: var(--brand); font-weight: 800; }
+
+    /* CTA section */
+    .cta{
+      padding: 44px 0 64px;
+    }
+    .cta-box{
+      background: linear-gradient(135deg, rgba(28,117,188,.14), rgba(255,255,255,.92));
+      border: 1px solid rgba(28,117,188,.20);
+      border-radius: calc(var(--radius) + 6px);
+      box-shadow: var(--shadow);
+      padding: 26px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .cta-box h2{
+      margin:0 0 6px;
+      font-size: 22px;
+      letter-spacing: -.2px;
+    }
+    .cta-box p{
+      margin:0;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 70ch;
+      font-size: 14.5px;
+    }
+    .cta-actions{
+      display:flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    footer{
+      padding: 26px 0 34px;
+      border-top: 1px solid rgba(229,238,247,.9);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .footer-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+    .footer-links{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      font-weight:700;
+    }
+    .footer-links a{
+      color: var(--muted);
+      padding: 6px 10px;
+      border-radius: 12px;
+    }
+    .footer-links a:hover{
+      background: rgba(28,117,188,.08);
+      text-decoration:none;
+      color: var(--text);
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero-grid{ grid-template-columns: 1fr; }
+      .feature{ grid-template-columns: 1fr; }
+      .grid-3{ grid-template-columns: 1fr; }
+      .steps{ grid-template-columns: 1fr; }
+    }
+
+    /* Reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      *{ scroll-behavior:auto !important; transition:none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Nav -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="Mirai Climbing Home">
+        <span class="logo" aria-hidden="true">MC</span>
+        <span>Mirai Climbing</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Site">
+        <a href="#features">特徴</a>
+        <a href="#screens">機能</a>
+        <a href="#beta">βテスター</a>
+        <a href="#faq">FAQ</a>
+        <a class="btn btn-link" href="#join">参加する</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main id="top" class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="kicker"><span class="dot" aria-hidden="true"></span> 個人開発・β版｜iOS / Android テスター募集中</div>
+        <h1>クライミングを、もっと自由に。</h1>
+        <p class="lead">
+          ログ記録・パートナー募集・目標管理をひとつにまとめた、クライマー向けアプリです。<br>
+          大規模サービスでは拾いきれない「クライマー一人ひとりの使い心地」を大切にしながら、少しずつ育てていきます。
+        </p>
+
+        <div class="hero-cta" id="join">
+          <a class="btn btn-primary" href="https://testflight.apple.com/join/nH1J5CFS" target="_blank" rel="noreferrer">
+            iPhoneで参加（TestFlight）
+          </a>
+
+          <a class="btn btn-ghost" href="https://groups.google.com/g/miraiclimbing" target="_blank" rel="noreferrer">
+            Android① Googleグループ参加
+          </a>
+
+          <a class="btn btn-ghost" href="https://play.google.com/apps/testing/com.yuzuki.miraiclimbing" target="_blank" rel="noreferrer">
+            Android② インストール（参加後）
+          </a>
+
+          <a class="btn btn-ghost" href="https://line.me/ti/g2/lZhd9RRLReHtogvhpQoLIn_KBG3SHj1HCzK_Cg?utm_source=invitation&utm_medium=QR_code&utm_campaign=default" target="_blank" rel="noreferrer">
+            LINEオープンチャット
+          </a>
+
+          <a class="btn btn-ghost" href="https://forms.gle/zVURQaZ3XvQ17NUEA" target="_blank" rel="noreferrer">
+            問い合わせフォーム
+          </a>
+        </div>
+
+        <div class="trust" aria-label="Highlights">
+          <span class="pill">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            ジム・外岩のログを一元化
+          </span>
+          <span class="pill">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="2"/><path d="M9 11a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" stroke-width="2"/><path d="M23 21v-2a4 4 0 00-3-3.87" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            募集で同行者探し
+          </span>
+          <span class="pill">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2"/></svg>
+            目標と進捗が見える
+          </span>
+          <span class="pill">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2l7 4v6c0 5-3 9-7 10C8 21 5 17 5 12V6l7-4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+            フィードバック歓迎
+          </span>
+        </div>
+
+        <div class="notice" style="margin-top:14px;">
+          <strong style="color:var(--text);">料金：</strong>無料（β版）<br>
+          <strong style="color:var(--text);">バグ・要望：</strong>まずは <a href="https://line.me/ti/g2/lZhd9RRLReHtogvhpQoLIn_KBG3SHj1HCzK_Cg?utm_source=invitation&utm_medium=QR_code&utm_campaign=default" target="_blank" rel="noreferrer">LINEオープンチャット</a> で共有してもらえると助かります（スクショも貼れます）。<br>
+          <strong style="color:var(--text);">問い合わせ：</strong>フォーム（<a href="https://forms.gle/zVURQaZ3XvQ17NUEA" target="_blank" rel="noreferrer">こちら</a>）も利用できます。
+        </div>
+      </div>
+
+      <aside class="phone" aria-label="Phone preview">
+        <div class="phone-top">
+          <span>Mirai Climbing</span>
+          <span style="font-weight:800;color:#0E4E87;">Preview</span>
+        </div>
+
+        <div class="screen">
+          <!-- スクショを置いたら src を差し替え（例: assets/screen-preview.png） -->
+          <img src="assets/screen-preview.png" alt="Mirai Climbingのアプリ画面プレビュー（スクリーンショット）"
+               onerror="this.remove(); document.getElementById('screen-fallback').style.display='block';" />
+          <div id="screen-fallback" class="screen-fallback" style="display:none;">
+            <strong>スクリーンショットを置くとここに表示されます</strong><br>
+            リポジトリに <code>assets/screen-preview.png</code> を追加してください。<br>
+            まずは「フィード」か「ログ詳細」など、魅力が伝わる画面1枚がおすすめです。
+          </div>
+        </div>
+
+        <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+          <span class="badge">ログ</span>
+          <span class="badge">募集</span>
+          <span class="badge">目標</span>
+          <span class="badge">iOS/Android</span>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Benefits -->
+  <section id="features">
+    <div class="container">
+      <h2 class="section-title">続く・つながる・伸びる。3つの体験</h2>
+      <p class="section-desc">
+        Mirai Climbingは「機能の多さ」よりも、使っていて気持ちいいこと、続けられることを大切にしています。
+      </p>
+
+      <div class="grid-3" role="list">
+        <div class="card" role="listitem">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M7 21h10a2 2 0 002-2V7l-4-4H7a2 2 0 00-2 2v14a2 2 0 002 2z" stroke="currentColor" stroke-width="2"/><path d="M15 3v4h4" stroke="currentColor" stroke-width="2"/><path d="M8 13h8M8 17h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <h3>記録が“資産”になる</h3>
+          <p>ジムも外岩も、登った内容をまとめて管理。あとから見返して「自分の成長」がちゃんと残ります。</p>
+        </div>
+
+        <div class="card" role="listitem">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M16 11a4 4 0 10-8 0v1a5 5 0 005 5h3a3 3 0 003-3v-3a3 3 0 00-3-3h-1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <h3>気軽に、仲間とつながる</h3>
+          <p>「一緒に登れる人を探したい」をスムーズに。募集→参加の流れを、シンプルに。</p>
+        </div>
+
+        <div class="card" role="listitem">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 20V10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 20V4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6 20v-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4 20h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <h3>目標が“行動”に変わる</h3>
+          <p>目標設定と進捗の可視化で、「やりたい」を前に進める。小さな達成が積み上がります。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screens / Features -->
+  <section id="screens">
+    <div class="container">
+      <h2 class="section-title">主な機能</h2>
+      <p class="section-desc">
+        まずは「ログ」「募集」「目標」の3つを、迷わず使えるように。ここから少しずつ改善していきます。
+      </p>
+
+      <div class="feature" style="margin-top:22px;">
+        <div class="card">
+          <span class="badge">ログ（ジム・外岩）</span>
+          <h3 style="margin:10px 0 6px;">ジムも外岩も、記録をひとつに</h3>
+          <p style="margin:0;color:var(--muted);line-height:1.85;">
+            登った課題、気づき、動画などを残して、あとから振り返れる形に。<br>
+            「次に何を意識するか」が見えると、成長が加速します。
+          </p>
+          <ul class="list" aria-label="Log points">
+            <li><svg class="check" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>ジム・外岩のログをまとめて管理</li>
+            <li><svg class="check" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>振り返りやすい形に整える</li>
+            <li><svg class="check" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>改善案・要望が出たらすぐ反映しやすい</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="screen">
+            <img src="assets/screen-log.png" alt="ログ画面のスクリーンショット"
+                 onerror="this.remove(); this.parentElement.innerHTML='<div class=&quot;screen-fallback&quot;><strong>ここにログ画面のスクショ</strong><br>例: <code>assets/screen-log.png</code> を追加してください。</div>';" />
+          </div>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="card">
+          <div class="screen">
+            <img src="assets/screen-recruit.png" alt="募集（同行者探し）画面のスクリーンショット"
+                 onerror="this.remove(); this.parentElement.innerHTML='<div class=&quot;screen-fallback&quot;><strong>ここに募集画面のスクショ</strong><br>例: <code>assets/screen-recruit.png</code> を追加してください。</div>';" />
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="badge">募集（同行者探し）</span>
+          <h3 style="margin:10px 0 6px;">「一緒に登りたい」を、すぐ形に</h3>
+          <p style="margin:0;color:var(--muted);line-height:1.85;">
+            日時や場所、スタイルに合わせて募集を出して、参加者とつながる。<br>
+            気軽さと安心感のバランスを、βで一緒に磨いていきたいです。
+          </p>
+          <ul class="list" aria-label="Recruit points">
+            <li><svg class="check" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>同行者探し・パートナー募集</li>
+            <li><svg class="check" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>募集の流れをシンプルに</li>
+            <li><svg class="check" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>使いにくい点を最優先で改善</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="card">
+          <span class="badge">目標（進捗）</span>
+          <h3 style="margin:10px 0 6px;">目標を立てて、進捗を見える化</h3>
+          <p style="margin:0;color:var(--muted);line-height:1.85;">
+            目標は「続けやすさ」を作る仕組み。数字や見える変化があると、自然に続きます。<br>
+            どんな表示が嬉しいか、ぜひ意見をください。
+          </p>
+          <ul class="list" aria-label="Goal points">
+            <li><svg class="check" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>目標設定・進捗の可視化</li>
+            <li><svg class="check" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>達成に向けて行動が整理できる</li>
+            <li><svg class="check" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>見返したくなるUIを目指す</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="screen">
+            <img src="assets/screen-goal.png" alt="目標画面のスクリーンショット"
+                 onerror="this.remove(); this.parentElement.innerHTML='<div class=&quot;screen-fallback&quot;><strong>ここに目標画面のスクショ</strong><br>例: <code>assets/screen-goal.png</code> を追加してください。</div>';" />
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:18px;color:var(--muted);font-size:13.5px;line-height:1.8;">
+        ※ 画面や仕様は、β期間中に継続的に改善します。
+      </div>
+    </div>
+  </section>
+
+  <!-- Beta -->
+  <section id="beta">
+    <div class="container">
+      <h2 class="section-title">βテスター募集</h2>
+      <p class="section-desc">
+        Mirai Climbing は個人開発のアプリです。<strong>無料</strong>で利用できます。<br>
+        使ってみた感想、分かりにくい点、改善案、バグ報告など、どんな声でも大歓迎です。
+      </p>
+
+      <div class="steps" aria-label="How to join">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>インストールして参加</h3>
+          <p>iPhoneはTestFlightから、AndroidはGoogleグループ参加後にGoogle Playからインストールできます。</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>まずは軽く触る</h3>
+          <p>「ログを1つ作る」「募集を眺める」「目標を作る」など、1つだけでもOKです。</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>LINEで気軽に共有</h3>
+          <p>バグや要望は、まずはLINEオープンチャットで共有してもらえると助かります（スクショも貼れます）。</p>
+        </div>
+      </div>
+
+      <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a class="btn btn-primary" href="https://testflight.apple.com/join/nH1J5CFS" target="_blank" rel="noreferrer">
+          iPhoneで参加（TestFlight）
+        </a>
+        <a class="btn btn-ghost" href="https://groups.google.com/g/miraiclimbing" target="_blank" rel="noreferrer">
+          Android① Googleグループ参加
+        </a>
+        <a class="btn btn-ghost" href="https://play.google.com/apps/testing/com.yuzuki.miraiclimbing" target="_blank" rel="noreferrer">
+          Android② インストール（参加後）
+        </a>
+        <a class="btn btn-ghost" href="https://line.me/ti/g2/lZhd9RRLReHtogvhpQoLIn_KBG3SHj1HCzK_Cg?utm_source=invitation&utm_medium=QR_code&utm_campaign=default" target="_blank" rel="noreferrer">
+          LINEオープンチャットに参加
+        </a>
+        <a class="btn btn-ghost" href="https://forms.gle/zVURQaZ3XvQ17NUEA" target="_blank" rel="noreferrer">
+          問い合わせフォーム
+        </a>
+      </div>
+
+      <div class="card" style="margin-top:16px;">
+        <h3 style="margin:0 0 10px; font-size:16px;">Android参加の手順</h3>
+        <ul class="list" aria-label="Android steps">
+          <li>
+            <svg class="check" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            ① まず Google グループに参加：
+            <a href="https://groups.google.com/g/miraiclimbing" target="_blank" rel="noreferrer">groups.google.com/g/miraiclimbing</a>
+          </li>
+          <li>
+            <svg class="check" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            ② 参加後、数分〜最大1時間ほど待ってからインストール：
+            <a href="https://play.google.com/apps/testing/com.yuzuki.miraiclimbing" target="_blank" rel="noreferrer">play.google.com/apps/testing/com.yuzuki.miraiclimbing</a>
+          </li>
+        </ul>
+
+        <p style="margin:10px 0 0; color:var(--muted); line-height:1.8; font-size:13.5px;">
+          バグ報告・要望は、まずはLINEオープンチャットでの共有が嬉しいです（スクショも貼れます）。<br>
+          個別の問い合わせは <a href="https://forms.gle/zVURQaZ3XvQ17NUEA" target="_blank" rel="noreferrer">問い合わせフォーム</a> からどうぞ。
+        </p>
+
+        <!-- QR画像（任意）: assets/line-openchat-qr.png -->
+        <div style="margin-top:12px; display:flex; gap:14px; flex-wrap:wrap; align-items:center;">
+          <div style="flex:1; min-width:220px;">
+            <p style="margin:0 0 8px; font-weight:800;">LINEオープンチャット（QRでも参加できます）</p>
+            <a class="btn btn-link" href="https://line.me/ti/g2/lZhd9RRLReHtogvhpQoLIn_KBG3SHj1HCzK_Cg?utm_source=invitation&utm_medium=QR_code&utm_campaign=default" target="_blank" rel="noreferrer">
+              招待リンクを開く
+            </a>
+          </div>
+          <div class="screen" style="max-width:220px;">
+            <img src="assets/line-openchat-qr.png" alt="LINEオープンチャット参加用QRコード"
+                 onerror="this.remove(); this.parentElement.innerHTML='<div class=&quot;screen-fallback&quot;><strong>QR画像を置くと表示されます</strong><br>例: <code>assets/line-openchat-qr.png</code></div>';" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <h2 class="section-title">FAQ</h2>
+      <p class="section-desc">参加前の不安を、できるだけ少なく。</p>
+
+      <details>
+        <summary>参加に費用はかかりますか？</summary>
+        <p>いいえ。Mirai Climbing は無料で利用できます（β版）。</p>
+      </details>
+
+      <details>
+        <summary>どれくらいの頻度で使えばいいですか？</summary>
+        <p>週1回や、たまに触るだけでも大丈夫です。短い感想でも改善のヒントになります。</p>
+      </details>
+
+      <details>
+        <summary>バグを見つけたらどうすればいいですか？</summary>
+        <p>
+          まずは <a href="https://line.me/ti/g2/lZhd9RRLReHtogvhpQoLIn_KBG3SHj1HCzK_Cg?utm_source=invitation&utm_medium=QR_code&utm_campaign=default" target="_blank" rel="noreferrer">LINEオープンチャット</a> で共有してもらえると助かります。<br>
+          スクショも貼れるので状況が伝わりやすく、改善が速くなります。<br>
+          個別の問い合わせは <a href="https://forms.gle/zVURQaZ3XvQ17NUEA" target="_blank" rel="noreferrer">問い合わせフォーム</a> からどうぞ。
+        </p>
+      </details>
+
+      <details>
+        <summary>iOSとAndroidの両方に対応していますか？</summary>
+        <p>
+          はい。iOS / Android ともにテスト参加できます。<br>
+          iPhone（TestFlight）：
+          <a href="https://testflight.apple.com/join/nH1J5CFS" target="_blank" rel="noreferrer">testflight.apple.com/join/nH1J5CFS</a><br>
+          Android（Google Playクローズドテスト）は、Googleグループ参加後にインストールできます：<br>
+          ① <a href="https://groups.google.com/g/miraiclimbing" target="_blank" rel="noreferrer">groups.google.com/g/miraiclimbing</a><br>
+          ② <a href="https://play.google.com/apps/testing/com.yuzuki.miraiclimbing" target="_blank" rel="noreferrer">play.google.com/apps/testing/com.yuzuki.miraiclimbing</a>
+        </p>
+      </details>
+
+      <details>
+        <summary>問い合わせフォームはありますか？</summary>
+        <p>
+          はい。<a href="https://forms.gle/zVURQaZ3XvQ17NUEA" target="_blank" rel="noreferrer">問い合わせフォーム</a> から送れます。<br>
+          （バグ報告や改善案は、まずLINEオープンチャットでの共有もおすすめです。）
+        </p>
+      </details>
+
+      <details>
+        <summary>データやプライバシーが心配です</summary>
+        <p>
+          プライバシーポリシーをご確認ください。<br>
+          <a href="#privacy" onclick="document.getElementById('privacy-link').focus();">ページ下部のリンク</a>から移動できます。
+        </p>
+      </details>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" aria-label="Final call to action">
+    <div class="container">
+      <div class="cta-box">
+        <div>
+          <h2>まずは、軽く触ってみませんか？</h2>
+          <p>
+            「記録」「募集」「目標」のどれか1つだけでもOK。<br>
+            あなたの一言が、Mirai Climbingを“使いやすいアプリ”に近づけます。
+          </p>
+        </div>
+        <div class="cta-actions">
+          <a class="btn btn-primary" href="https://testflight.apple.com/join/nH1J5CFS" target="_blank" rel="noreferrer">
+            iPhoneで参加
+          </a>
+          <a class="btn btn-ghost" href="https://play.google.com/apps/testing/com.yuzuki.miraiclimbing" target="_blank" rel="noreferrer">
+            Androidで参加
+          </a>
+          <a class="btn btn-ghost" href="https://forms.gle/zVURQaZ3XvQ17NUEA" target="_blank" rel="noreferrer">
+            問い合わせ
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-row" id="privacy">
+        <div>© <span id="y"></span> Mirai Climbing</div>
+        <div class="footer-links">
+          <a href="https://testflight.apple.com/join/nH1J5CFS" target="_blank" rel="noreferrer">iPhone（TestFlight）</a>
+          <a href="https://groups.google.com/g/miraiclimbing" target="_blank" rel="noreferrer">Android（グループ）</a>
+          <a href="https://play.google.com/apps/testing/com.yuzuki.miraiclimbing" target="_blank" rel="noreferrer">Android（インストール）</a>
+          <a href="https://line.me/ti/g2/lZhd9RRLReHtogvhpQoLIn_KBG3SHj1HCzK_Cg?utm_source=invitation&utm_medium=QR_code&utm_campaign=default" target="_blank" rel="noreferrer">LINE</a>
+          <a href="https://forms.gle/zVURQaZ3XvQ17NUEA" target="_blank" rel="noreferrer">問い合わせフォーム</a>
+          <a id="privacy-link" href="privacy-policy.html">プライバシーポリシー</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // footer year
+    document.getElementById("y").textContent = new Date().getFullYear();
+
+    // Smooth scroll for in-page anchors
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener("click", (e) => {
+        const href = a.getAttribute("href");
+        if (!href || href === "#") return;
+        const el = document.querySelector(href);
+        if (!el) return;
+        e.preventDefault();
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        history.replaceState(null, "", href);
+      });
+    });
+  </script>
+</body>
+</html>
