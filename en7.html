@@ -23,7 +23,7 @@
       --radius: 16px;
       --container: 1080px;
 
-      --frame-border: 1px solid rgba(229,238,247,.9);
+      --frame-border: 2px solid rgba(11,18,32,.25);
       --frame-bg: rgba(255,255,255,.92);
       --frame-minh: 120px;
     }
@@ -46,31 +46,25 @@
     .container{ width:min(var(--container), calc(100% - 36px)); margin-inline:auto; }
 
     header{ padding: 22px 0 6px; }
-    .topbar{ display:flex; align-items:flex-start; gap:14px; }
+    .topbar{ display:flex; align-items:center; gap:12px; }
     .logo{
-      width:64px; height:64px;
-      border-radius: 14px;
+      width:44px; height:44px;
+      border-radius: 10px;
       background:#0E4E87;
       box-shadow: var(--shadow2);
       overflow:hidden;
       flex: 0 0 auto;
-      border:1px solid rgba(229,238,247,.9);
-      margin-top: 2px;
+      border:1px solid rgba(229,238,247,.7);
     }
     .logo img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .titlewrap{ display:flex; flex-direction:column; gap:8px; }
-    .brandname{
-      font-weight:900;
-      letter-spacing:.2px;
-      font-size: 24px;
-      line-height:1.1;
-    }
+    .titlewrap{ display:flex; flex-direction:column; gap:6px; }
+    .brandname{ font-weight:900; letter-spacing:.2px; font-size: 18px; }
     .kicker{
       display:inline-flex;
       align-items:center;
       gap:10px;
-      padding:9px 13px;
-      border-radius: 14px;
+      padding:8px 12px;
+      border-radius: 12px;
       border: 1px solid rgba(11,18,32,.75);
       background: rgba(255,255,255,.75);
       font-weight:800;
@@ -113,8 +107,8 @@
       gap: 14px;
     }
     .card{
-      background: var(--frame-bg);
-      border: var(--frame-border);
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(229,238,247,.9);
       border-radius: var(--radius);
       box-shadow: var(--shadow2);
       padding: 16px;
@@ -123,13 +117,12 @@
     .chip{
       display:inline-flex;
       align-items:center;
-      padding:6px 11px;
+      padding:5px 10px;
       border-radius: 10px;
       border: 1px solid rgba(11,18,32,.85);
       background: rgba(255,255,255,.78);
       font-weight:900;
-      font-size: 14px;
-      letter-spacing: .1px;
+      font-size: 12.5px;
     }
     .card h3{
       margin: 10px 0 7px;
@@ -153,142 +146,68 @@
 
     .link{ color: var(--brand); font-weight: 900; }
 
-    .values-list{
-      display:flex;
-      flex-direction:column;
-      gap: 14px;
-      margin-top: 12px;
-    }
-    .value-item{
-      background: var(--frame-bg);
-      border: var(--frame-border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow2);
-      padding: 16px;
-    }
-    .value-head{
-      display:flex;
-      align-items:flex-start;
-      gap:10px;
-      margin-bottom: 6px;
-    }
-
-    .num-badge,
-    .step-num{
-      width: 26px;
-      height: 26px;
-      border-radius: 999px;
-      border: 1px solid rgba(11,18,32,.35);
-      background: rgba(255,255,255,.8);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight: 900;
-      font-size: 13px;
-      flex: 0 0 auto;
-      margin-top: 1px;
-    }
-
-    .value-item h3{
-      margin:0;
-      font-size: 16px;
-      font-weight: 900;
-      letter-spacing: -.1px;
-      line-height: 1.35;
-    }
-    .value-item p{
-      margin: 6px 0 0;
-      color: var(--muted);
-      line-height: 1.9;
-      font-size: 14.2px;
-    }
-
-    .flow-steps{
-      display:flex;
-      flex-direction:column;
-      gap: 14px;
-      margin-top: 12px;
-    }
-    .step-card{
-      background: var(--frame-bg);
-      border: var(--frame-border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow2);
-      padding: 16px;
-    }
-    .step-head{
-      display:flex;
-      align-items:flex-start;
-      gap:10px;
-      margin-bottom: 6px;
-    }
-    .step-card h3{
-      margin:0;
-      font-size: 16px;
-      font-weight: 900;
-      letter-spacing: -.1px;
-      line-height: 1.35;
-    }
-    .step-card p{
-      margin: 6px 0 0;
-      color: var(--muted);
-      line-height: 1.9;
-      font-size: 14.2px;
-    }
-    .step-card .mini{
-      color: var(--muted);
-      line-height: 1.9;
-      font-size: 14.2px;
-      margin: 6px 0 0;
-    }
-
-    .closing-line{
+    .flow{
       margin-top: 18px;
-      color: var(--muted);
-      line-height: 1.85;
-      font-size: 15.5px;
-      font-weight: 400;
-      letter-spacing: 0;
-    }
-
-    .support-grid{
       display:grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-top: 12px;
+      gap: 16px;
+      align-items:stretch;
     }
-    .support-card{
-      background: var(--frame-bg);
+
+    .flowbox{
       border: var(--frame-border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow2);
-      padding: 16px;
+      border-radius: 12px;
+      background: var(--frame-bg);
+      padding: 14px;
+      min-height: var(--frame-minh);
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
     }
-    .support-card h3{
+    .flowbox h3{
       margin:0 0 8px;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 900;
-      letter-spacing: -.1px;
-      line-height: 1.35;
     }
-    .support-card p{
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.9;
-      font-size: 14.2px;
-    }
-    .support-card ul{
-      margin: 10px 0 0;
-      padding: 0 0 0 18px;
-      color: var(--muted);
-      line-height: 1.9;
-      font-size: 14.2px;
-    }
-    .support-note{
-      margin-top: 12px;
+    .flowbox .mini{
       color: var(--muted);
       line-height: 1.85;
       font-size: 14px;
+    }
+
+    .arrowwrap{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding: 8px 0 4px;
+    }
+    .arrow{
+      width: 0;
+      height: 0;
+      border-left: 18px solid transparent;
+      border-right: 18px solid transparent;
+      border-top: 30px solid #0E4E87;
+      filter: drop-shadow(0 6px 10px rgba(11,18,32,.10));
+    }
+
+    .stepwide{
+      grid-column: 1 / -1;
+      border-radius: 14px;
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(229,238,247,.9);
+      box-shadow: var(--shadow2);
+      padding: 16px;
+    }
+    .stepwide h3{
+      margin: 0 0 8px;
+      font-size: 15px;
+      font-weight: 900;
+    }
+    .stepwide p{
+      margin:0;
+      color: var(--muted);
+      line-height: 1.9;
+      font-size: 14.2px;
     }
 
     footer{
@@ -307,11 +226,11 @@
       padding-top: 14px;
     }
 
+    .lang-link{ margin-left: 12px; }
+
     @media (max-width: 920px){
       .grid{ grid-template-columns: 1fr; }
-      .support-grid{ grid-template-columns: 1fr; }
-      .topbar{ align-items:center; }
-      .logo{ width:58px; height:58px; }
+      .flow{ grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -338,7 +257,7 @@
         One app for logging sessions, finding partners, and tracking goals—built for climbers.
       </p>
       <p class="lead">
-        <a class="link" href="index.html">日本語</a>
+        <a class="link lang-link" href="index7.html">日本語</a>
       </p>
     </section>
 
@@ -408,87 +327,40 @@
       </div>
     </section>
 
-    <section id="values">
-      <h2>What makes Mirai Climbing different</h2>
-
-      <div class="values-list">
-        <div class="value-item">
-          <div class="value-head">
-            <div class="num-badge">1</div>
-            <h3>Neutral—no single style favored</h3>
-          </div>
-          <p>
-            Mirai Climbing is designed to stay neutral: bouldering or lead, gym or outdoor, casual or serious.<br>
-            We don’t assume one style or level. We want you to use it in the way that fits you now.<br>
-            The app aims to be a flat, neutral space that works for every climber’s distance and goals.
-          </p>
-        </div>
-
-        <div class="value-item">
-          <div class="value-head">
-            <div class="num-badge">2</div>
-            <h3>Close to the developer</h3>
-          </div>
-          <p>
-            Mirai Climbing is an indie app. That’s why we care a lot about what users say.<br>
-            Your feedback shapes what we learn from real use and what we improve next.<br>
-            “I’d like this feature” or “this is hard to use”—that kind of input is exactly what drives the next update.
-          </p>
-        </div>
-
-        <div class="value-item">
-          <div class="value-head">
-            <div class="num-badge">3</div>
-            <h3>Built to grow with you</h3>
-          </div>
-          <p>
-            Mirai Climbing is still in beta. Features and UI will keep changing.<br>
-            We want it to be an app that grows with climbers, not a finished product.<br>
-            We hope you enjoy being part of that process.
-          </p>
-        </div>
-      </div>
-
-      <div class="closing-line">
-        Mirai Climbing isn’t for one type of climber.<br>
-        It’s for you—whoever is climbing right now.
-      </div>
-    </section>
-
     <section id="beta">
       <h2>Join the beta</h2>
 
-      <div class="flow-steps" aria-label="Beta steps">
-        <div class="step-card">
-          <div class="step-head">
-            <div class="step-num">1</div>
-            <h3>Install</h3>
-          </div>
+      <div class="flow" aria-label="Beta flow">
+        <div class="flowbox">
+          <h3>① Install (iPhone)</h3>
           <div class="mini">
-            iPhone: Join via <a class="link" href="https://testflight.apple.com/join/nH1J5CFS" target="_blank" rel="noreferrer">TestFlight</a><br>
-            Android: Install from <a class="link" href="https://play.google.com/apps/testing/com.yuzuki.miraiclimbing" target="_blank" rel="noreferrer">Google Play</a>
+            Join via <a class="link" href="https://testflight.apple.com/join/nH1J5CFS" target="_blank" rel="noreferrer">TestFlight</a>
           </div>
         </div>
 
-        <div class="step-card">
-          <div class="step-head">
-            <div class="step-num">2</div>
-            <h3>Try it out</h3>
+        <div class="flowbox" id="android">
+          <h3>① Install (Android)</h3>
+          <div class="mini">
+            ① Join the <a class="link" href="https://groups.google.com/g/miraiclimbing" target="_blank" rel="noreferrer">Google Group</a><br>
+            ② After a few minutes (up to ~1 hour), install from <a class="link" href="https://play.google.com/apps/testing/com.yuzuki.miraiclimbing" target="_blank" rel="noreferrer">Google Play</a>
           </div>
-          <p>
-            We’d be happy if you fill in your profile first.<br>
-            Then try at least one thing: add a log, browse partner posts, or create a goal.
-          </p>
         </div>
 
-        <div class="step-card">
-          <div class="step-head">
-            <div class="step-num">3</div>
-            <h3>Share feedback</h3>
-          </div>
+        <div class="arrowwrap" aria-hidden="true"><div class="arrow"></div></div>
+        <div class="arrowwrap" aria-hidden="true"><div class="arrow"></div></div>
+
+        <div class="stepwide">
+          <h3>② Try it out</h3>
+          <p>Add one log, browse partner posts, or set a goal—any one of these is enough to start.</p>
+        </div>
+
+        <div class="arrowwrap" aria-hidden="true" style="grid-column:1/-1;"><div class="arrow"></div></div>
+
+        <div class="stepwide">
+          <h3>③ Share feedback</h3>
           <p>
             Join the <a class="link" href="https://line.me/ti/g2/lZhd9RRLReHtogvhpQoLIn_KBG3SHj1HCzK_Cg?utm_source=invitation&utm_medium=QR_code&utm_campaign=default" target="_blank" rel="noreferrer">LINE open chat</a>
-            and share bugs or feature ideas.<br>
+            and share bugs or feature ideas (screenshots welcome).<br>
             For other questions, use the <a class="link" href="https://forms.gle/zVURQaZ3XvQ17NUEA" target="_blank" rel="noreferrer">contact form</a>.
           </p>
         </div>
@@ -500,52 +372,12 @@
       </p>
     </section>
 
-    <section id="support">
-      <h2>Want to support or get involved?</h2>
-
-      <div class="support-grid">
-        <div class="support-card">
-          <h3>Contributors wanted</h3>
-          <p>
-            Mirai Climbing is built by a small team.<br>
-            “I can help a little” or “I just have ideas” is welcome too.
-          </p>
-
-          <p style="margin-top:10px; font-weight:900; color:var(--text);">
-            We’d especially love help with:
-          </p>
-          <ul>
-            <li>Spreading the word and finding users</li>
-            <li>Flutter / front-end development</li>
-            <li>Gathering input from climbers</li>
-            <li>Advice on crowdfunding</li>
-          </ul>
-
-          <p style="margin-top:10px;">
-            To get in touch, use the <a class="link" href="https://forms.gle/zVURQaZ3XvQ17NUEA" target="_blank" rel="noreferrer">contact form</a>.
-          </p>
-        </div>
-
-        <div class="support-card">
-          <h3>Crowdfunding (coming soon)</h3>
-          <p>
-            We’re considering <a class="link" href="https://camp-fire.jp/projects/922715/preview?token=v86xvsie&utm_campaign=cp_po_share_c_msg_projects_show" target="_blank" rel="noreferrer">crowdfunding</a>
-            for development and visibility.<br>
-            If you’d like to see it when it launches or share ideas on rewards, take a look.
-          </p>
-          <p class="support-note">
-            * Currently in the “preview / under consideration” stage. Details may change.
-          </p>
-        </div>
-      </div>
-    </section>
-
     <footer>
       <div class="footerrow">
         <div>© <span id="y"></span> Mirai Climbing</div>
         <div>
           <a class="link" id="privacyLink" href="privacy-policy.html">Privacy Policy</a>
-          <a class="link" href="index.html" style="margin-left:12px;">日本語</a>
+          <a class="link lang-link" href="index7.html">日本語</a>
         </div>
       </div>
 
